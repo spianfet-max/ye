@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './src/App.jsx' // This was the error; added /src/
+import App from './App.jsx' // Look in the same root folder
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
