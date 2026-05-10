@@ -1,19 +1,21 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 
 // =================================================================
-// DEEP ARCHIVE DATA - ALL ERAS & 60+ ENTRIES
+// COMPREHENSIVE ARCHIVE DATA - 80+ ENTRIES
 // =================================================================
 const ALBUMS = [
   {
     id: 'tcd', title: 'The College Dropout', short: 'TCD', year: '2004',
     palette: { bg: '#E8DCC4', text: '#3A2817', accent: '#B8860B', glow: 'rgba(184,134,11,0.22)', soft: 'rgba(184,134,11,0.12)' },
     quotes: [
-      { text: "I'm doing pretty good as far as geniuses go", year: 2004, type: 'QUOTE', source: 'Time Magazine', context: 'His first major cover. He spent years proving he was more than just a "producer who raps."' },
+      { text: "I'm doing pretty good as far as geniuses go", year: 2004, type: 'QUOTE', source: 'Time Magazine', context: 'His first major cover. Spent years proving he was more than just a "producer who raps."' },
       { text: 'the wired-jaw album', year: 2003, type: 'HISTORY', source: 'Car Crash', context: 'Recorded "Through the Wire" two weeks after a near-fatal crash, rapping through a jaw wired shut.' },
       { text: 'chipmunk soul', year: 2004, type: 'PRODUCTION', source: 'Signature Sound', context: 'The technique of speeding up classic soul vocal samples to a high pitch.' },
       { text: 'the dropout bear', year: 2004, type: 'ICONOGRAPHY', source: 'Sam Hansen', context: 'The bear suit was a random find at a school photoshoot; it became a global icon.' },
       { text: 'Jesus Walks', year: 2004, type: 'CULTURE', source: 'Triple Video', context: 'Kanye funded three separate music videos to ensure the message reached different audiences.' },
-      { text: 'backpack rap crossover', year: 2004, type: 'FASHION', source: 'Polo Ralph Lauren', context: 'He broke the gangsta-rap dress code by popularized pink polos and backpacks.' },
+      { text: 'backpack rap crossover', year: 2004, type: 'FASHION', source: 'Polo Ralph Lauren', context: 'He broke the gangsta-rap dress code by popularizing pink polos and backpacks.' },
+      { text: 'The Roc-A-Fella Deal', year: 2002, type: 'BUSINESS', source: 'Signing', context: 'Dame Dash signed him primarily to keep him from producing beats for other labels.' },
+      { text: 'All Falls Down', year: 2004, type: 'LYRIC', source: 'Self-Awareness', context: 'A rare moment of vulnerability in mid-2000s rap, discussing consumerism and insecurity.' },
     ],
   },
   {
@@ -26,6 +28,8 @@ const ALBUMS = [
       { text: 'Gold Digger', year: 2005, type: 'BUSINESS', source: 'Charts', context: 'Sampled Ray Charles; it stayed at #1 for ten weeks.' },
       { text: 'Touch the Sky', year: 2005, type: 'VISUAL', source: 'Evel Knievel', context: 'The $1M video led to a lawsuit from the real-life daredevil.' },
       { text: 'Hey Mama', year: 2005, type: 'PERSONAL', source: 'Donda West', context: 'A tribute written while his mother was alive.' },
+      { text: 'The Abbey Road Sessions', year: 2005, type: 'LIVE', source: 'London', context: 'Recorded a live string-heavy version of the album at the legendary Beatles studio.' },
+      { text: 'Lupe Fiasco Debut', year: 2005, type: 'CULTURE', source: 'Mentorship', context: 'Gave Lupe his first major spotlight, continuing the backpack rap legacy.' },
     ],
   },
   {
@@ -33,11 +37,13 @@ const ALBUMS = [
     palette: { bg: '#FFD9EC', text: '#1B1B5C', accent: '#FFC700', glow: 'rgba(255,199,0,0.36)', soft: 'rgba(255,199,0,0.18)' },
     quotes: [
       { text: 'The 50 Cent Showdown', year: 2007, type: 'MARKETING', source: 'Sept 11', context: 'A sales battle that signaled the end of Gangsta Rap dominance.' },
-      { text: 'Stronger / Daft Punk', year: 2007, type: 'PRODUCTION', source: 'French House', context: 'Reportedly went through 8 different engineers to get the drum mix right.' },
+      { text: 'Stronger / Daft Punk', year: 2007, type: 'PRODUCTION', source: 'French House', context: 'Reportedly went through 8 engineers to get the drum mix right.' },
       { text: 'Murakami Cover', year: 2007, type: 'ART', source: 'Superflat', context: 'Collaborated with Takashi Murakami for the bear\'s psychedelic rebirth.' },
       { text: 'Shutter Shades', year: 2007, type: 'FASHION', source: 'Alain Mikli', context: 'The lens-less glasses that defined the "electro-hop" era.' },
       { text: 'Flashing Lights', year: 2007, type: 'SOUND', source: 'Stadium Synth', context: 'A pivot from soul samples to arena-sized synthesizers.' },
       { text: 'Homecoming', year: 2007, type: 'LYRIC', source: 'Chris Martin', context: 'A personification of Chicago as a childhood sweetheart.' },
+      { text: 'The Steely Dan Sample', year: 2007, type: 'PRODUCTION', source: 'Champion', context: 'Personally called Donald Fagen to clear the sample for "Champion."' },
+      { text: 'Can\'t Tell Me Nothing', year: 2007, type: 'PHILOSOPHY', source: 'Anthem', context: 'Considered by Kanye to be his most representative "theme song."' },
     ],
   },
   {
@@ -50,18 +56,22 @@ const ALBUMS = [
       { text: 'The Deflated Heart', year: 2008, type: 'ART', source: 'KAWS', context: 'The cover art represented the loss of his mother and his fiancé.' },
       { text: 'Love Lockdown', year: 2008, type: 'CULTURE', source: 'Tribal Drums', context: 'Performed with taiko drums and no rapping; changed pop sound.' },
       { text: 'Sad-Boy Legacy', year: 2008, type: 'INFLUENCE', source: 'Drake/Weeknd', context: 'Credited with birthing the melodic, vulnerable rap genre.' },
+      { text: 'Coldest Winter', year: 2008, type: 'PERSONAL', source: 'Eulogy', context: 'A direct farewell to his mother, Donda, over a Tears for Fears sample.' },
+      { text: 'The Grey Suit Era', year: 2008, type: 'FASHION', source: 'Minimalism', context: 'Shed the colors of Graduation for a muted, monochromatic wardrobe.' },
     ],
   },
   {
     id: 'mbdtf', title: 'My Beautiful Dark Twisted Fantasy', short: 'MBDTF', year: '2010',
     palette: { bg: '#180606', text: '#F2E4D0', accent: '#C0392B', glow: 'rgba(192,57,43,0.50)', soft: 'rgba(192,57,43,0.22)' },
     quotes: [
-      { text: 'The Hawaii "Rap Camp"', year: 2010, type: 'HISTORY', source: 'Avex Studios', context: 'Artists were required to wear suits and follow strict studio rules.' },
+      { text: 'The Hawaii "Rap Camp"', year: 2010, type: 'HISTORY', source: 'Avex Studios', context: 'Artists were required to follow strict studio rules, including a black-tie dress code.' },
       { text: 'Runaway (The Film)', year: 2010, type: 'ART', source: '35mm Film', context: 'A 34-minute film about a phoenix falling to Earth.' },
-      { text: 'George Condo Paintings', year: 2010, type: 'ART', source: 'Covers', context: 'Five covers were commissioned; one was banned globally.' },
+      { text: 'George Condo Paintings', year: 2010, type: 'ART', source: 'Covers', context: 'Condo painted five covers; the "banned" one depicted a fallen angel.' },
       { text: 'Pitchfork 10.0', year: 2010, type: 'RECEPTION', source: 'Perfect Score', context: 'Cemented his comeback as a critical darling.' },
       { text: 'Maximalism', year: 2010, type: 'PRODUCTION', source: 'Wall of Sound', context: '"All of the Lights" features 11 superstar vocalists uncredited.' },
       { text: 'The Red Suit', year: 2010, type: 'FASHION', source: 'VMAs', context: 'The iconic performance of Runaway using a solo MPC.' },
+      { text: 'Blame Game', year: 2010, type: 'HISTORY', source: 'Aphex Twin', context: 'A rare hip-hop flip of a legendary ambient electronic track.' },
+      { text: 'Monster Verse', year: 2010, type: 'CULTURE', source: 'Nicki Minaj', context: 'Often cited as one of the greatest guest verses in hip-hop history.' },
     ],
   },
   {
@@ -74,6 +84,8 @@ const ALBUMS = [
       { text: 'Building Projections', year: 2013, type: 'MARKETING', source: 'New Slaves', context: 'Premiered the video on 66 buildings worldwide.' },
       { text: 'Maison Margiela Masks', year: 2013, type: 'FASHION', source: 'Tour', context: 'Performed the entire tour with his face covered.' },
       { text: 'Industrial Noise', year: 2013, type: 'SOUND', source: 'Daft Punk', context: 'Influenced by Chicago Drill and Acid House.' },
+      { text: 'Black Skinhead', year: 2013, type: 'PRODUCTION', source: 'Drums', context: 'Gary Glitter-inspired drums mixed with punk energy.' },
+      { text: 'The BBC Radio 1 Interview', year: 2013, type: 'CULTURE', source: 'Zane Lowe', context: 'The era of "breaking the glass ceiling" of the fashion industry.' },
     ],
   },
   {
@@ -86,6 +98,8 @@ const ALBUMS = [
       { text: 'Which One?', year: 2016, type: 'ICONOGRAPHY', source: 'Cover', context: 'References Picasso, Escobar, and Apostle Paul.' },
       { text: 'The Floating Stage', year: 2016, type: 'TOUR', source: 'Saint Pablo', context: 'The stage hovered over the pit, turning the crowd into the art.' },
       { text: 'I love you like Kanye loves Kanye', year: 2016, type: 'CULTURE', source: 'Meme', context: 'A self-aware exploration of his own public persona.' },
+      { text: 'No More Parties in LA', year: 2016, type: 'PRODUCTION', source: 'Madlib', context: 'The only time Kendrick Lamar and Kanye shared a track on a Madlib beat.' },
+      { text: 'The Saint Pablo Prayer', year: 2016, type: 'PHILOSOPHY', source: 'Faith', context: 'A document of the struggle between fame and family.' },
     ],
   },
   {
@@ -96,6 +110,8 @@ const ALBUMS = [
       { text: 'I hate being Bi-Polar its awesome', year: 2018, type: 'PERSONAL', source: 'iPhone', context: 'Shot the cover on his phone hours before release.' },
       { text: 'Seven Tracks', year: 2018, type: 'PRODUCTION', source: 'Format', context: 'Believed 7 tracks was the perfect length for attention.' },
       { text: 'Ghost Town', year: 2018, type: 'SOUND', source: '070 Shake', context: 'An anthem about feeling "free" and overcoming numbness.' },
+      { text: 'Violent Crimes', year: 2018, type: 'PERSONAL', source: 'Fatherhood', context: 'A raw exploration of his fears for his daughters.' },
+      { text: 'All Mine', year: 2018, type: 'BUSINESS', source: 'Streaming', context: 'A viral hit that proved the minimalist Wyoming format worked.' },
     ],
   },
   {
@@ -106,6 +122,8 @@ const ALBUMS = [
       { text: 'No More Secular Music', year: 2019, type: 'PERSONAL', source: 'Faith', context: 'Declared he would only make Christian music.' },
       { text: 'Closed on Sunday', year: 2019, type: 'LYRIC', source: 'Chick-fil-A', context: 'A metaphor for family devotion and rest.' },
       { text: 'Use This Gospel', year: 2019, type: 'COLLAB', source: 'Clipse', context: 'The first reunion of No Malice and Pusha T in a decade.' },
+      { text: 'Selah', year: 2019, type: 'PRODUCTION', source: 'Hallelujah', context: 'Used powerful choral arrangements to signal the new era.' },
+      { text: 'The Blue Square', year: 2019, type: 'ART', source: 'Minimalism', context: 'The color cobalt blue became the defining visual for this era.' },
     ],
   },
   {
@@ -116,6 +134,8 @@ const ALBUMS = [
       { text: 'The Soldier Field Fire', year: 2021, type: 'EVENT', source: 'Performance', context: 'Set himself on fire inside a replica of his childhood home.' },
       { text: 'The Stem Player', year: 2021, type: 'TECH', source: 'Hardware', context: 'A device allowing users to remix stems in real-time.' },
       { text: 'Hurricane', year: 2021, type: 'SOUND', source: 'Weeknd', context: 'Teased for 3 years before being perfected.' },
+      { text: 'Come to Life', year: 2021, type: 'PERSONAL', source: 'Piano', context: 'A soaring, emotional piano ballad about rebirth.' },
+      { text: 'Pure Black', year: 2021, type: 'ART', source: 'Mourning', context: 'The absence of any art on the cover represented the void of loss.' },
     ],
   }
 ];
